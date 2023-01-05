@@ -1,64 +1,120 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css';
+import Head from "next/head";
+import { useState, useEffect } from "react";
+import styles from "../styles/Home.module.css";
+import { Grid, Stack, Snackbar, Typography, Alert, Box } from "@mui/material";
+import { Product } from "../components/product";
+import { PlaceOrderButton } from "../components/placeOrderButton";
+import { usePlaceOrder } from "../hooks/usePlaceOrder";
+import Link from "../src/Link";
+
+const fakeProducts = [
+  { price: 10, title: "Product 1", description: "description product 1" },
+  { price: 10, title: "Product 2", description: "description product 2" },
+  { price: 10, title: "Product 3", description: "description product 3" },
+];
+const fakeInitialCredit = 100;
+
+export const remove = (idx, sourceArray) => {
+  const arrayCopy = sourceArray.slice();
+  arrayCopy.splice(idx, 1);
+  return arrayCopy;
+};
 
 export default function Home() {
+  const [cartProducts, setProducts] = useState([]);
+  const [finishedProduct, setFinishedProduct] = useState(false);
+  const { onPlaceOrder, isOrderPlaced, cancelOrder, executionStatus } =
+    usePlaceOrder();
+
+  const handleAddProductToCart = (p) => {
+    const maybeProductIdx = cartProducts.findIndex(
+      (pro) => pro.title === p.title
+    );
+    setProducts(
+      maybeProductIdx === -1
+        ? cartProducts.concat(p)
+        : remove(maybeProductIdx, cartProducts)
+    );
+  };
+
+  const handlePlaceOrder = () => {
+    onPlaceOrder(cartProducts, fakeInitialCredit);
+  };
+
+  useEffect(() => {
+    if (executionStatus?.status === "COMPLETED") {
+      setFinishedProduct(true);
+      setProducts([]);
+    }
+  }, [executionStatus]);
+
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>Checkout Products</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
+        <Stack spacing={2}>
+          <Grid
+            container
+            p={4}
+            justifyContent="flex-end"
+            alignContent={"center"}
+            spacing={2}
           >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+            <Grid item sx={{ paddingTop: 25 }}>
+              <Typography align="center">
+                {`Available Credit ${cartProducts.reduce(
+                  (acc, { price }) => acc - price,
+                  fakeInitialCredit
+                )}`}
+              </Typography>
+            </Grid>
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
+            <Grid item>
+              <PlaceOrderButton
+                onPlaceOrder={handlePlaceOrder}
+                isOrderedPlaced={isOrderPlaced}
+                onCancelOrder={cancelOrder}
+                orderItems={cartProducts}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={1}>
+            {fakeProducts.map((p) => (
+              <Grid item key={p.title}>
+                <Product
+                  {...p}
+                  onAddRemove={() => handleAddProductToCart(p)}
+                  notInCart={
+                    cartProducts.findIndex((pro) => pro.title === p.title) ===
+                    -1
+                  }
+                />
+              </Grid>
+            ))}
+          </Grid>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={finishedProduct}
+            autoHideDuration={6000}
+            onClose={() => setFinishedProduct(false)}
           >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+            <Alert onClose={() => setFinishedProduct(false)}>
+              Checkout Successful
+            </Alert>
+          </Snackbar>
+          <Box pl={1}>
+            <Link href="/orders/my-orders" color="secondary">
+              View My Orders
+            </Link>
+          </Box>
+        </Stack>
       </main>
 
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className={styles.logo} />
-        </a>
-      </footer>
+      <footer></footer>
 
       <style jsx>{`
         main {
@@ -111,5 +167,5 @@ export default function Home() {
         }
       `}</style>
     </div>
-  )
+  );
 }

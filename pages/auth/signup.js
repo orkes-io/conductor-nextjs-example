@@ -19,18 +19,16 @@ export default function Registration() {
       setRegistrationDone([true, "User Registered Successfully", true]);
       localStorage.setItem(
         "user_email",
-        executionStatus.output.output.user_application.name
+        executionStatus.output.user_application.name
       );
       localStorage.setItem(
         "user_app_id",
-        executionStatus.output.output.user_application.id
+        executionStatus.output.user_application.id
       );
     } else if (executionStatus.status === "FAILED") {
       setRegistrationDone([true, executionStatus.reasonForIncompletion, false]);
     }
   }, [executionStatus]);
-
-  console.log("execution status", executionStatus);
 
   return (
     <div className={styles.container}>

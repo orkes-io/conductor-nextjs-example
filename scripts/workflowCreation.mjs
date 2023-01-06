@@ -48,7 +48,7 @@ const createCheckoutWorkflow = () =>
 export const playConfig = {
   keyId: process.env.KEY,
   keySecret:process.env.SECRET,
-  serverUrl: "http://localhost:3000/api",
+  serverUrl: `${process.env.SERVER_URL}`,
 };
 
 (async () => {

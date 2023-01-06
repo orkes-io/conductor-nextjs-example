@@ -9,5 +9,5 @@ export SECRET=XXXXX-XXXXX-XXXXX
 ```
 Then Run `yarn dev` to start nextJS server.
 
-*Note* that the app depends on a workflow being created. To create the workflow. run `node scripts/workflowCreation.mjs`
+*Note* that the app depends on a workflow being created. To create the workflow. run `yarn seedWf`
 Don't forget the env variables above

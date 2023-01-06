@@ -4,7 +4,7 @@ To run the app first `yarn` to install dependencies. The app is targeted to node
 You'll need the following env variables:
 
 ```shell
-export SERVER_URL= https://play.orkes.io/api
+export SERVER_URL=https://play.orkes.io/api
 export KEY=XXXXX-XXXX-XXXX
 export SECRET=XXXXX-XXXXX-XXXXX
 ```

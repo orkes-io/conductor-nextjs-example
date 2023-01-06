@@ -16,9 +16,6 @@ module.exports = {
         source: "/api/:path*",
 
         destination: `${process.env.SERVER_URL}/api/:path*`,
-        /* destination: "https://pg-staging.orkesconductor.com/api/:path*", */
-        /* destination: "https://tmo-poc.orkesconductor.io/api/:path*", */
-        /* destination:"https://play.orkes.io/api/:path*" */
       },
     ];
   },

@@ -10,11 +10,13 @@ const { publicRuntimeConfig } = getConfig();
 
 export const useMyOrders = () => {
   const [userOrders, setOrders] = useState([]);
+  // create a client promise
   const clientPromise = orkesConductorClient(publicRuntimeConfig.conductor);
 
   const handleGetMyOrders = () => {
     const getOrders = async () => {
       const client = await clientPromise;
+      // With the client pull the workflow with correlationId (correlation id is not really needed it just helps to group orders together)
       const orders = await client.workflowResource.getWorkflows1(
         publicRuntimeConfig.workflows.checkout,
         "myCoolUser",

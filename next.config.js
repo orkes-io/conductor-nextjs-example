@@ -1,13 +1,25 @@
 module.exports = {
   publicRuntimeConfig: {
     conductor: {
-      keyId: "27dbd53d-4483-477d-adaa-6f213c5f7d97",
-      keySecret: "7HcRcxXMU6mVnnTuGAOY7S7slTBvWlcHjexQgXHeAvxDDGxB",
-      serverUrl: "http://localhost:8080/api",
+      keyId: process.env.KEY,
+      keySecret:process.env.SECRET,
+      serverUrl: "http://localhost:3000/api",
     },
     workflows:{
       checkout: "MyCheckout2",
       
     }
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+
+        destination: `${process.env.SERVER_URL}/api/:path*`,
+        /* destination: "https://pg-staging.orkesconductor.com/api/:path*", */
+        /* destination: "https://tmo-poc.orkesconductor.io/api/:path*", */
+        /* destination:"https://play.orkes.io/api/:path*" */
+      },
+    ];
   },
 };

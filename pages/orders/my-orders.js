@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Link from "../../src/Link";
-import { useMyOrders } from "../../hooks/useMyOrders";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,8 +10,28 @@ import { Stack } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import styles from "../../styles/Home.module.css";
 
-export default function MyOrders() {
-  const { getOrders, userOrders } = useMyOrders();
+import {
+  orkesConductorClient,
+  WorkflowExecutor,
+  TaskType,
+} from "@io-orkes/conductor-javascript";
+import getConfig from "next/config";
+
+const { publicRuntimeConfig } = getConfig();
+
+export async function getServerSideProps() {
+  const clientPromise = orkesConductorClient(publicRuntimeConfig.conductor);
+
+  const client = await clientPromise;
+  const orders = await client.workflowResource.getWorkflows1(
+    publicRuntimeConfig.workflows.checkout,
+    "myCoolUser",
+    true // include terminated
+  );
+  return { props: { orders } };
+}
+
+export default function MyOrders({orders:userOrders}) {
   return (
     <div className={styles.container}>
       <Head>
@@ -55,8 +74,10 @@ export default function MyOrders() {
               </TableBody>
             </Table>
           </TableContainer>
-          
-        <Link href="/" color="secondary">Back to Home</Link>
+
+          <Link href="/" color="secondary">
+            Back to Home
+          </Link>
         </Stack>
       </main>
 

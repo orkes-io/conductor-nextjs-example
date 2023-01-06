@@ -1,17 +1,12 @@
 import * as React from "react";
 
 import {
-  Grid,
-  Stack,
   Button,
   CircularProgress,
   ButtonGroup,
 } from "@mui/material";
 
-import LoadingButton from "@mui/lab/LoadingButton";
 import { CartBadge } from "./cart";
-// import SaveIcon from '@mui/icons-material/Save';
-// import Stack from '@mui/material/Stack';
 
 export const PlaceOrderButton = ({
   onPlaceOrder,

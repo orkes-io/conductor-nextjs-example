@@ -10,7 +10,7 @@
     "@emotion/react": "latest",
     "@emotion/server": "latest",
     "@emotion/styled": "latest",
-    "@io-orkes/conductor-javascript": "^0.0.10",
+    "@io-orkes/conductor-javascript": "^0.0.11",
     "@mui/icons-material": "latest",
     "@mui/lab": "^5.0.0-alpha.114",
     "@mui/material": "latest",

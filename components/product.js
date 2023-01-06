@@ -18,7 +18,7 @@ export const Product = ({
       <CardMedia
         sx={{ height: 140 }}
         image="/paella.jpeg"
-        title="green iguana"
+        title="A paella"
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

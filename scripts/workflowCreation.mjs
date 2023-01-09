@@ -9,7 +9,7 @@ import {
 } from "@io-orkes/conductor-javascript";
 
 const createCheckoutWorkflow = () =>
-  workflow("MyCheckout2", [
+  workflow(`${process.env.CHECKOUT_WF_NAME || "MyCheckout2"}`, [
     waitTaskDuration("confirmation_wait", "15 seconds"),
     generateInlineTask({
       name: "check_credit",

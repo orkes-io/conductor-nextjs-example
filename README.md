@@ -2,7 +2,7 @@
 
 ## Prerquisite
 1. node >= 18
-2. port 3000 open
+2. port 3456 open
 3. Conductor server
 
 ### Setup conductor server (IMPORTANT)
@@ -16,6 +16,8 @@ export KEY=
 export SECRET=
 # replace CONDUCTOR_SERVER with the actual hostname, the URL must end with /api
 export SERVER_URL=http://CONDUCTOR_SERVER/api
+# Optional checkout workflow name defaults to MyCheckout2
+export CHECKOUT_WF_NAME=MyCheckout2
 
 ```
 
@@ -30,7 +32,7 @@ yarn seedWf
 yarn dev
 ```
 
-> open http://localhost:3000/ in the browser to use the app
+> open http://localhost:3456/ in the browser to use the app
 
 
 ## Under the hood

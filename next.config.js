@@ -3,10 +3,10 @@ module.exports = {
     conductor: {
       keyId: process.env.KEY,
       keySecret:process.env.SECRET,
-      serverUrl: "http://localhost:3000/api",
+      serverUrl: "http://localhost:3456/api",
     },
     workflows:{
-      checkout: "MyCheckout2",
+      checkout: `${process.env.CHECKOUT_WF_NAME || "MyCheckout2"}`,
       
     }
   },

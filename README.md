@@ -39,4 +39,7 @@ yarn dev
 3. Once the wait time is over, the workflow is completed unless the user `cancels` the order, in which case the workflow is terminated.
 
 ## Workflow definition
+See [workflowCreation.mjs](scripts/workflowCreation.mjs) for the workflow creation using the SDK
+![Checkout Workflow](workflow.png)
+
 

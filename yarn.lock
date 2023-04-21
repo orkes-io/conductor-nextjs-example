@@ -181,10 +181,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.3.0.tgz#ea89004119dc42db2e1dba0f97d553f7372f6fcb"
   integrity sha512-AHPmaAx+RYfZz0eYu6Gviiagpmiyw98ySSlQvCUhVGDRtDFe4DBS0x1bSjdF3gqUDYOczB+yYvBTtEylYSdRhg==
 
-"@io-orkes/conductor-javascript@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@io-orkes/conductor-javascript/-/conductor-javascript-0.0.11.tgz#1eb42caf3497af36052285c3013a000ea842c291"
-  integrity sha512-kCq+rmEIQHCRjBTCc3+C+fXyWWSWNcb6eh6dt5Wtu+sXc7U9UOwBElMrVll7a2INcNsMgpdZE5l3h6gMTC+XRQ==
+"@io-orkes/conductor-javascript@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@io-orkes/conductor-javascript/-/conductor-javascript-0.9.1.tgz#e7586a9e790792aa6685491a775db06f00f1e7ff"
+  integrity sha512-Xw2keQuPf9cx0bcNy1pwpVlKP0UBfB0QnZHAL77Am8zgQBZduhzb44Q3m+F8VZZpNGCSPoTNgUI+1rfVZT93eQ==
 
 "@mui/base@5.0.0-alpha.112":
   version "5.0.0-alpha.112"

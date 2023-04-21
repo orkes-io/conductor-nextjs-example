@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Link from "../../src/Link";
-import { useMyOrders } from "../../hooks/useMyOrders";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,9 +9,31 @@ import TableRow from "@mui/material/TableRow";
 import { Stack } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import styles from "../../styles/Home.module.css";
+import {
+  orkesConductorClient,
+} from "@io-orkes/conductor-javascript";
 
-export default function MyOrders() {
-  const { getOrders, userOrders } = useMyOrders();
+import getConfig from "next/config";
+
+const { publicRuntimeConfig } = getConfig();
+
+export async function getServerSideProps(context) {
+  const clientPromise = orkesConductorClient(publicRuntimeConfig.conductor);
+  const client = await clientPromise;
+  // With the client pull the workflow with correlationId (correlation id is not really needed it just helps to group orders together)
+  const orders = await client.workflowResource.getWorkflows1(
+    publicRuntimeConfig.workflows.checkout,
+    publicRuntimeConfig.workflows.correlationId,
+    true // include terminated
+  );
+  return {
+    props: {
+      userOrders: orders || [],
+    },
+  };
+}
+
+export default function MyOrders({ userOrders }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -55,8 +76,10 @@ export default function MyOrders() {
               </TableBody>
             </Table>
           </TableContainer>
-          
-        <Link href="/" color="secondary">Back to Home</Link>
+
+          <Link href="/" color="secondary">
+            Back to Home
+          </Link>
         </Stack>
       </main>
 

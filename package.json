@@ -4,14 +4,14 @@
     "dev": "next dev -p 3456",
     "build": "next build",
     "start": "next start",
-    "seedWf":"node scripts/workflowCreation.mjs"
+    "seedWf": "node scripts/workflowCreation.mjs"
   },
   "dependencies": {
     "@emotion/cache": "latest",
     "@emotion/react": "latest",
     "@emotion/server": "latest",
     "@emotion/styled": "latest",
-    "@io-orkes/conductor-javascript": "^0.0.11",
+    "@io-orkes/conductor-javascript": "^0.9.1",
     "@mui/icons-material": "latest",
     "@mui/lab": "^5.0.0-alpha.114",
     "@mui/material": "latest",

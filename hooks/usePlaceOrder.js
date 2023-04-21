@@ -2,17 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import {
   orkesConductorClient,
   WorkflowExecutor,
-  TaskType,
 } from "@io-orkes/conductor-javascript";
-import getConfig from "next/config";
 
-const { publicRuntimeConfig } = getConfig();
-export const usePlaceOrder = () => {
+export const usePlaceOrder = ({ conductor, workflows, correlationId }) => {
   const timerRef = useRef(null);
   const [executionId, setExecutionId] = useState(null);
   const [executionStatus, setExecutionStatus] = useState({});
   // Create the client with our properties in the next file
-  const clientPromise = orkesConductorClient(publicRuntimeConfig.conductor);
+  const clientPromise = orkesConductorClient(conductor);
 
   useEffect(() => {
     // Made a interval effect that will start running when we have an executionId
@@ -50,13 +47,13 @@ export const usePlaceOrder = () => {
       const executor = new WorkflowExecutor(client);
       // using the executor helper start the workflow
       const executionId = await executor.startWorkflow({
-        name: publicRuntimeConfig.workflows.checkout,
+        name: workflows.checkout,
         version: 1,
         input: {
           products,
           availableCredit: availableBalance,
         },
-        correlationId: "myCoolUser",
+        correlationId,
       });
       // persist executionId in state
       setExecutionId(executionId);

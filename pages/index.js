@@ -6,6 +6,10 @@ import { Product } from "../components/product";
 import { PlaceOrderButton } from "../components/placeOrderButton";
 import { usePlaceOrder } from "../hooks/usePlaceOrder";
 import Link from "../src/Link";
+import {
+  orkesConductorClient,
+} from "@io-orkes/conductor-javascript";
+import getConfig from "next/config";
 
 const fakeProducts = [
   { price: 10, title: "Product 1", description: "description product 1" },
@@ -14,17 +18,34 @@ const fakeProducts = [
 ];
 const fakeInitialCredit = 100;
 
+const { publicRuntimeConfig } = getConfig();
+
 export const remove = (idx, sourceArray) => {
   const arrayCopy = sourceArray.slice();
   arrayCopy.splice(idx, 1);
   return arrayCopy;
 };
 
-export default function Home() {
+export async function getServerSideProps(context) {
+  const clientPromise = orkesConductorClient(publicRuntimeConfig.conductor);
+  const client = await clientPromise;
+  // With the client pull the workflow with correlationId (correlation id is not really needed it just helps to group orders together)
+  return {
+    props: {
+      conductor: {
+        serverUrl: publicRuntimeConfig.conductor.serverUrl,
+        TOKEN: client.token,
+      },
+      workflows: publicRuntimeConfig.workflows,
+      correlationId: publicRuntimeConfig.workflows.correlationId,
+    },
+  };
+}
+export default function Home({conductor, workflows,correlationId}) {
   const [cartProducts, setProducts] = useState([]);
   const [finishedProduct, setFinishedProduct] = useState(false);
   const { onPlaceOrder, isOrderPlaced, cancelOrder, executionStatus } =
-    usePlaceOrder();
+    usePlaceOrder({conductor, workflows,correlationId});
 
   const handleAddProductToCart = (p) => {
     const maybeProductIdx = cartProducts.findIndex(
